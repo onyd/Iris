@@ -1,0 +1,289 @@
+#:kivy 1.11.1
+
+#:import Gradient Iris.GUI.Graphics.Gradient
+
+<ChoiceDialog>:
+<Index>:
+    index: '1'
+    size_hint: None, None
+    size: self.minimum_size
+
+    Label:
+        id: label
+        text: root.index
+        color: app.theme_cls.text_color
+
+        font_size: 22
+        size_hint: None, None
+        size: max(*self.texture_size), max(*self.texture_size)
+        center: root.center
+
+        canvas:
+            Color:
+                rgba: app.theme_cls.primary_color
+            Line:
+                width: 1.5
+                ellipse: (root.x, root.y, root.width, root.height)
+    
+<Link>:
+    size_hint: None, None
+        
+    Index:
+        id: index
+<EnumeratedItem>:
+    size_hint: 0.9, None
+    height: self.minimum_height
+
+    spacing: dp(12)
+
+    Index:
+        index: root.index
+
+<ItemCheck>:
+    on_release: root.set_icon(check)
+
+    CheckboxLeftWidget:
+        id: check
+        group: "check"
+<SelectMenu>:
+    size_hint: None, None
+    size: self.minimum_size
+    item: item.__self__
+
+    Label:
+        id: item
+        text: root.items[0]['text'] if len(root.items) > 0 else ''
+        color: app.theme_cls.text_color
+        valign: "center"
+        font_size: 22
+
+        size_hint: None, None
+        size: self.texture_size
+
+<ScrollingGridLayout>:
+    size_hint: 1, None
+    height: self.parent.height
+
+    scroll_lay: lay.__self__
+
+    MDGridLayout:
+        id: lay
+
+        adaptive_height: True
+
+        cols: 2
+        spacing: dp(12)
+        margin: dp(12)
+<RightBottomFloatingButton>:
+    x: self.parent.x + self.parent.width - self.width - self.margin if self.parent else 0
+    y: self.parent.y + self.margin if self.parent else 0
+<TaskListItem>:
+    IconLeftWidget:
+        icon: 'clipboard-check-outline'
+    RightIconButton:
+        icon: 'dots-vertical'              
+<SheetView>:
+    background_color: 0,0,0,0  # make it invisible 
+    canvas.before:
+        Color:
+            rgba: app.theme_cls.bg_light
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: root.radius
+<LabeledTextField@RelativeLayout>:
+    label_text: ''
+    input_text: ''
+    hint_text: ''
+    size_hint_y: None 
+    margin: dp(10)
+    height: label.height+root.margin
+    bg_color: (1., 1., 1., 1)
+
+    canvas:
+        Color:
+            rgba: root.bg_color
+        RoundedRectangle:
+            size: self.size
+            radius: [18, ]
+
+    Label:
+        id: label
+        text: root.label_text
+        color: app.theme_cls.text_color
+        valign: "center"
+        font_size: 22
+
+        size_hint: None, None
+        size: self.texture_size
+        x: root.margin
+        pos_hint: {'center_y': 0.5}
+        
+    TextInput:
+        id: input_text_filed
+        multiline: False # make it adapt its size according to text lines
+        background_color: (1., 1., 1., 0)
+        text: root.input_text
+        hint_text: root.hint_text
+        font_size: 22
+        
+        size_hint: None, None
+        size: root.width-label.width-4*root.margin, self.minimum_height
+        x: label.width+2*root.margin
+        pos_hint: {'center_y': 0.5}
+<Icon>:
+    size_hint: None, None
+    icon_size: 36
+    size: root.icon_size, root.icon_size
+
+    canvas:
+        Color:
+            rgba: (1, 1, 1, 1) if self.source else (0, 0, 0, 0)
+        Rectangle:
+            source: self.source if self.source else None
+            pos: (self.x+(root.width-root.icon_size)/2, self.y+(root.height-root.icon_size)/2) 
+            size: root.icon_size, root.icon_size
+
+<RectangleIconLabelButton>:
+    orientation: 'vertical'
+    canvas:
+        Color: 
+            rgba: root.frame_color
+
+        Line:
+            width: root.frame_width
+            rectangle: (self.x, self.y, self.width, self.height)
+
+    Image:
+        id: icon
+        source: root.source
+        
+
+    Label:
+        text: root.text
+        
+        color: app.theme_cls.text_color
+        valign: "center"
+
+        size_hint: None, None
+        size: self.texture_size
+
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        
+
+<CapsuleButton>:
+    orientation: 'vertical'
+    size_hint: None, None
+    size: self.minimum_width+self.margin, self.minimum_height+self.margin
+
+    canvas:
+        Color: 
+            rgba: root.frame_color
+
+        Line:
+            width: root.frame_width
+            rectangle: (self.x, self.y, self.width, self.height)
+
+<SwitchBase>:
+    size_hint: None, None
+
+    canvas:
+        Color:
+            rgba: root.color 
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [12, ]
+    
+    BoxLayout:
+        size_hint_x: None
+        width: self.minimum_width
+        padding: dp(10)
+        Label:
+            id: sb_label
+            text: root.text
+            font_size: root.font_size
+            size_hint_x: None
+            width: self.texture_size[0]
+
+<SwitchCursor>:
+    size_hint: None, None
+    cursor_color: (0.4, 0.4, 0.4, 1.)
+    label_opacity: 1
+
+    canvas:
+        Color:
+            rgba: self.current_color 
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [12, ]
+
+    BoxLayout:
+        opacity: root.label_opacity
+
+        size_hint_x: None
+        width: self.minimum_width
+        padding: dp(10)
+        Label:
+            id: sc_label
+            text: root.text
+            font_size: root.font_size
+            size_hint_x: None
+            width: self.texture_size[0]
+    
+    
+
+<CustomSwitch>:
+    gradient_colors: []
+    canvas:
+        Color:
+            rgb: (1., 1., 1.)
+
+        RoundedRectangle:
+            size: self.size
+            texture: Gradient.horizontal(*self.gradient_colors)
+            radius: [15, ]
+
+    
+            
+        
+<CustomBubble>:
+    cols: 1
+    line_width: 2.
+
+    arrow_x: 60
+    arrow_width: 15
+    arrow_height: 25
+
+    canvas:
+        Color:
+            rgba: app.theme_cls.primary_color
+
+        Line:
+            width: root.line_width
+            points: [0, 0, root.width, 0]
+        
+        Line:
+            width: root.line_width
+            points: [0, 0, 0, root.height-root.arrow_height]
+           
+        Line:
+            width: root.line_width
+            points: [0+self.width, 0, root.width, root.height-root.arrow_height]
+        
+        Line:
+            width: root.line_width
+            points: [0, root.height-root.arrow_height, root.arrow_x, root.height-root.arrow_height]
+        
+        Line:
+            width: root.line_width
+            points: [root.arrow_x, root.height-root.arrow_height, 0+root.arrow_x+root.arrow_width, root.height]
+        
+        Line:
+            width: root.line_width
+            points: [root.arrow_x+root.arrow_width, root.height, root.arrow_x+root.arrow_width, root.height-root.arrow_height]
+        
+        Line:
+            width: root.line_width
+            points: [root.arrow_x+root.arrow_width, root.height-root.arrow_height, root.width, root.height-root.arrow_height]

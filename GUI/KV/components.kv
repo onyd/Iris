@@ -1,0 +1,269 @@
+#:kivy 1.11.1
+
+#:import Components Iris.core.Models.Components.Component
+
+#:set res "Iris/resources/icon/"
+
+<ComponentBar@RelativeLayout>:
+    bar_margin: 0
+    margin: dp(5)
+    icon: res+'message_bubble.png'
+    text: "Component"
+    chip_callback_on: lambda x: x
+    chip_callback_off: lambda x: x
+    gradient_colors: []
+    switch_size: 100, 30
+
+    size_hint: None, None
+    size: component_icon.width+component_label.width+comp_switch.width+6*root.margin+root.bar_margin, component_icon.height+2*root.margin 
+
+    canvas:
+        Color:
+            rgb: (1., 1., 1.)
+        Rectangle:
+            size: self.size
+            texture: Gradient.horizontal(*root.gradient_colors)
+    
+
+    Icon:
+        id: component_icon
+        source: root.icon
+        size: 56, 56
+        icon_size: 48
+
+        pos: root.margin, root.height-self.height-root.margin
+
+        canvas:
+            Color:
+                rgba: app.theme_cls.primary_color
+            Line:
+                width: 1.1
+                ellipse: (self.x, self.y, self.width, self.height)
+
+    Label:
+        id: component_label
+        text: root.text
+        color: app.theme_cls.text_color
+        valign: "center"
+        font_size: 48
+
+        size_hint: None, None
+        size: self.texture_size
+        
+        pos: component_icon.width+2*root.margin, component_icon.y
+
+        canvas:
+            Color:
+                rgba: app.theme_cls.primary_color
+            Line:
+                width: 1.1
+                points: (self.x, self.y, self.x+self.width, self.y)
+    
+ 
+    CustomSwitch:
+        id: comp_switch
+        selected: on_comp_switch
+
+        size_hint: None, None
+        size: root.switch_size
+        x: root.width-self.width-root.margin
+        pos_hint: {'center_y': 0.5}
+
+        gradient_colors: [(0.4, 1., 0., 1), (1., 0.4, 0., 1)]
+
+        SwitchBase:
+            id: on_comp_switch
+            text: 'on'
+            font_size: 18
+            selected_color: (0.1, 0.7, 0, 1)
+            callback: root.chip_callback_on
+            
+        
+        SwitchBase:
+
+            text: 'off'
+            font_size: 18
+            selected_color: (0.7, 0.1, 0, 1)
+            callback: root.chip_callback_off
+
+        SwitchCursor:
+            font_size: 18
+            anim_duration: 0.6
+
+
+
+    
+
+<Component>:
+    bar_margin: 0
+    margin: dp(10)
+    text: ''
+    orientation: 'vertical'
+    gradient_colors: []
+
+    pos: root.pos
+    size_hint: None, None
+    size: self.minimum_size
+
+    drag_rectangle: self.x, self.y, self.width, self.height
+
+    canvas:
+        Color:
+            rgb: (0.3, 0., 0.6)
+        Line:
+            width: 2
+            rectangle: (self.x, self.y, self.width, self.height)
+
+    ComponentBar:
+        bar_margin: root.bar_margin
+        icon: res+root.icon
+        text: root.text
+        switch_size: 100, 30
+
+        gradient_colors: root.gradient_colors
+
+<Condition>:
+    spacing_x: dp(8)
+    gradient_colors: [(0.5, 0., 0., 0.8), (0.5, 0.8, 0.2, 0.5)]
+    
+    size_hint_y: None
+    height: self.minimum_height
+    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+    left_value_input: left_value_input.__self__
+    operator_menu: operator_menu.__self__
+    right_value_input: right_value_input.__self__
+
+    canvas:
+        Color:
+            rgb: (1., 1., 1.)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            texture: Gradient.horizontal(*root.gradient_colors)
+    
+    TextInput:
+        id: left_value_input
+        multiline: False 
+        background_color: (1., 1., 1., 0.3)
+        
+        pos_hint: {'center_y': 0.5}
+
+    SelectMenu:
+        id: operator_menu
+        items: [{'text': '='}, {'text': '!='}, {'text': '>'}, {'text': '>='}, {'text': '<'}, {'text': '<='}, {'text': '&'}, {'text': '|'}, {'text': 'in'}]
+
+    TextInput:
+        id: right_value_input
+        multiline: False 
+        background_color: (1., 1., 1., 0.3)
+        
+        pos_hint: {'center_y': 0.5}
+
+
+<ConditionStack>:
+    size_hint: 1, None
+    add_btn: add_btn.__self__
+    
+    canvas:
+        Color:
+            rgb: (0.3, 0., 0.6)
+        Line:
+            width: 2
+            rectangle: (self.x, self.y, self.width, self.height)
+        
+    MDIconButton:
+        id: add_btn
+        icon: "plus-circle-outline"
+        on_release: root.add_condition()
+
+<Print>:
+    text: 'Print'
+    value: print_text_field.input_text
+    gradient_colors: [(0.8, 0., 0., 0.5), (0.2, 0.2, 0.8, 0.5)]
+
+    BindField:
+        size_hint_y: None 
+        height: print_text_field.height + 2*root.margin
+        
+        LabeledTextField:
+            id: print_text_field
+            label_text: 'Value:'
+            input_text: root.value
+            hint_text: 'print'
+            bg_color: app.theme_cls.primary_color
+            
+            size_hint_x: 0.9
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    
+<Cases>:
+    text: 'Cases'
+    gradient_colors: [(0.8, 0., 0., 0.5), (0.2, 0.2, 0.8, 0.5)]
+
+    BindField:
+        size_hint_y: None
+        height: self.minimum_height+2*root.margin
+
+        spacing_x: dp(6)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        LabeledTextField:
+            id: if_text_field
+            text: 'Variable:'
+            bg_color: app.theme_cls.primary_color
+            
+            size_hint_x: 0.9
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        EnumeratedList:
+            id: cases_list
+            padding: dp(12)
+            
+            size_hint_y: None
+            height: self.minimum_height
+
+            pos_hint: {'center_x': 0.5}
+
+            EnumeratedItem:
+                Condition:
+
+            
+<If>:
+    text: 'If'
+    gradient_colors: [(0.8, 0., 0., 0.5), (0.2, 0.2, 0.8, 0.5)]
+    bar_margin: 100
+
+    BindField:
+        size_hint: 1, None
+        height: self.minimum_height+2*root.margin
+
+        spacing_x: dp(6)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        EnumeratedList:
+            id: condition_stack_list
+            padding: dp(12)
+            
+            size_hint_y: None
+            height: self.minimum_height
+
+            pos_hint: {'center_x': 0.5}
+
+                    
+<While>:
+    text: 'While'
+    gradient_colors: [(0.8, 0., 0., 0.5), (0.2, 0.2, 0.8, 0.5)]
+
+    BindField:
+        size_hint_y: None
+        height: 2*root.margin
+
+<For>:
+    text: 'For'
+    gradient_colors: [(0.8, 0., 0., 0.5), (0.2, 0.2, 0.8, 0.5)]
+
+    BindField:
+        size_hint_y: None
+        height: 2*root.margin
+
+<Variable>:

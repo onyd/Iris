@@ -1,0 +1,93 @@
+#:kivy 1.11.1
+
+#:include Iris/GUI/KV/dashboard.kv
+#:include Iris/GUI/KV/settings.kv
+#:include Iris/GUI/KV/conversations.kv
+#:include Iris/GUI/KV/customs.kv
+#:include Iris/GUI/KV/editor.kv
+#:include Iris/GUI/KV/components.kv
+
+#:set res "Iris/resources/icon/"
+
+
+ScreenManager:
+    id: screen_manager
+    
+    HomeScreen:
+        id: home_screen
+        name: 'home_screen'
+
+        MDBottomNavigation:
+            id: bot_nav
+            MDBottomNavigationItem:
+                name: "conversations_nav"
+                icon: "message-text-outline"
+                text: "Conversations"
+
+                ConversationsScreen:
+                    name: "conversations_screen"
+                    id: conversations_screen
+
+            MDBottomNavigationItem:
+                name: "dashboard_nav"
+                icon: "clipboard-text"
+                text: "Dashboard"
+
+                DashboardScreen:
+                    name: "dashboard_screen"
+                    id: dashboard_screen
+            
+            MDBottomNavigationItem:
+                name: "lab_nav"
+                icon: "chemical-weapon"
+                text: "Lab"
+
+                ChooseEditorScreen:
+                    id: choose_editor_screen
+                    name: 'choose_editor_screen'
+
+                    GridLayout:
+                        id: select_editor
+                        cols: 2
+                        spacing: dp(12), dp(12)
+                        padding: dp(8), dp(8)
+
+                        LabButton:
+                            id: reflex_btn
+                            
+                            source: res+'message_bubble.png'
+                            text: "Reflex editor"
+                            on_release: app.change_screen('reflex_list_screen')
+
+                        LabButton:
+                            id: task_btn
+                            
+                            source: res+'message_bubble.png'
+                            text: 'Task editor'
+                            on_release: app.change_screen('task_editor_screen')
+                            
+                        LabButton:
+                            id: scene_btn
+                            
+                            source: res+'message_bubble.png'
+                            text: 'Scene editor'
+                            on_release: app.change_screen('scene_editor_screen')
+    
+    TaskEditorScreen:
+        id: task_editor_screen
+        name: 'task_editor_screen'
+
+    ReflexEditorScreen:
+        id: reflex_editor_screen
+        name: 'reflex_editor_screen'
+
+    SceneEditorScreen:
+        id: scene_editor_screen
+        name: 'scene_editor_screen'
+
+    SettingsScreen:
+        name: "settings_screen"
+        id: settings_screen
+
+    
+            

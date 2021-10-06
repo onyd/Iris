@@ -1,0 +1,69 @@
+ChooseEditorScreen:
+
+def __init__(self, **kw):
+        super().__init__(**kw)
+        self.name = "choose_editor_screen"
+        self.layout = GridLayout(cols=2,
+                                 spacing=(dp(12), dp(12)),
+                                 padding=(dp(8), dp(8)))
+
+        self.reflex_btn = RectangleIconLabelButton(
+            source=res_dir + 'message_bubble.png',
+            text="Reflex editor",
+            on_release=lambda x: App.get_running_app().change_lab(
+                'reflex_list_screen'))
+        self.task_btn = RectangleIconLabelButton(
+            source=res_dir + 'message_bubble.png',
+            text="Task editor",
+            on_release=lambda x: App.get_running_app().change_lab(
+                'task_editor_screen'))
+        self.scene_btn = RectangleIconLabelButton(
+            source=res_dir + 'message_bubble.png',
+            text="Scene editor",
+            on_release=lambda x: App.get_running_app().change_lab(
+                'scene_editor_screen'))
+
+        self.layout.add_widget(self.reflex_btn)
+        self.layout.add_widget(self.task_btn)
+        self.layout.add_widget(self.scene_btn)
+
+        self.add_widget(self.layout)
+
+
+HomeScreen:
+
+def __init__(self, **kw):
+        super().__init__(**kw)
+        self.name = "home_screen"
+        self.nav = MDBottomNavigation()
+
+        # Navigation bar
+        self.conversations_nav = MDBottomNavigationItem(
+            icon="message-text-outline", text="Conversations")
+        self.dashboard_nav = MDBottomNavigationItem(icon="clipboard-text",
+                                                    text="Dashboard")
+        self.choose_editor_nav = MDBottomNavigationItem(icon="chemical-weapon",
+                                                        text="Lab")
+
+        # Navigation screens
+        self.conversations_screen = ConversationsScreen(
+            name="conversations_screen")
+        self.dashboard_screen = DashboardScreen(name="dashboard_screen")
+        self.choose_editor_screen = ChooseEditorScreen(
+            name="choose_editor_screen")
+
+        self.conversations_nav.add_widget(self.conversations_screen)
+        self.dashboard_nav.add_widget(self.dashboard_screen)
+        self.choose_editor_nav.add_widget(self.choose_editor_screen)
+
+        self.nav.add_widget(self.conversations_nav)
+        self.nav.add_widget(self.dashboard_nav)
+        self.nav.add_widget(self.choose_editor_nav)
+
+        self.add_widget(self.nav)
+
+canvas:
+        Color:
+            rgba: (0.3,0.5,0.7,1)
+        Rectangle:
+            size: self.size

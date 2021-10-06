@@ -1,0 +1,26 @@
+#:kivy 1.11.1
+
+#:include Iris/GUI/KV/dashboard.kv
+#:include Iris/GUI/KV/settings.kv
+#:include Iris/GUI/KV/conversations.kv
+#:include Iris/GUI/KV/customs.kv
+#:include Iris/GUI/KV/editor.kv
+#:include Iris/GUI/KV/components.kv
+
+#:set res "Iris/GUI/resources/"
+
+
+ScreenManager:
+    id: screen_manager
+    
+    
+    Screen:
+        ScatterLayout:
+            do_rotation: False
+
+            canvas:
+                Color:
+                    rgb: (0.4,0.4,0.4)
+                Rectangle:
+                    pos: self.pos
+                    size: self.width/2, self.height/2

@@ -1,0 +1,118 @@
+#:kivy 1.11.1
+
+#:set res "Iris/resources/icon/"
+
+<Message>:
+    anchor_x: 'right'
+    icon_size: 36
+    icon_label_spacing: dp(14)
+
+    size_hint: 1, None
+    height: message.height
+
+    Icon:
+        source: root.icon
+        
+        x: dp(6) if root.anchor_x=='left' else root.width-root.icon_size-dp(6)
+
+    MDLabel:
+        id: message
+        text: self.parent.text
+        halign: 'left' if root.anchor_x=='left' else 'right'
+
+        size_hint: None, None
+        text_size_y: None 
+        width: root.width-root.icon_size-dp(24)
+        height: self.texture_size[1]+dp(12)
+
+        x: root.icon_size+root.icon_label_spacing  if root.anchor_x=='left' else root.width-self.width-root.icon_size-root.icon_label_spacing
+
+        
+        canvas.before:
+            Rectangle:
+                
+                pos: (self.x-dp(2), self.y) if root.anchor_x=='left' else (self.x+dp(2), self.y)
+                size: self.size 
+                texture: Gradient.horizontal((0.2,0.4,0.6,0.3),(0.3,0.3,1,0.3))
+            
+            Color:
+                rgba: app.theme_cls.primary_color
+            Line:
+                width: 1.
+                rectangle: (self.x-dp(2), self.y, self.width, self.height) if root.anchor_x=='left' else (self.x+dp(2), self.y, self.width, self.height)
+
+    
+
+<ScrollableMessage>:
+    on_size: 
+        self.update_size()
+
+    GridLayout:
+        id: layout
+        cols: 1
+        x: self.parent.x
+        y: self.parent.y
+        size_hint: 1, None
+
+        GridLayout:
+            id: chat_history
+            cols: 1
+            padding: 0, dp(8)
+            spacing: 0, dp(8)
+            size_hint_y: None
+            
+        Label:
+            id: scroll_to
+
+        
+<ConversationsScreen>:
+    FloatLayout:
+        GridLayout:
+            id: message_box
+            cols: 1
+            spacing: 1
+            size_hint: 0.9, 1
+            pos_hint: {"x": 0.05}
+            
+            AnchorLayout:
+                id: iris_logo_bar
+
+                anchor_x: "left"
+                size_hint: 1, None
+                height: iris_logo.height
+
+                IrisLogo:
+                    id: iris_logo
+
+                    size_hint: None, None
+                    size: dp(150), dp(90)           
+            
+            CustomBubble:
+                id: message_bubble
+                orientation: "vertical"
+
+                size_hint: 1, None
+                height: root.height-iris_logo_bar.height-dp(64)
+                ScrollableMessage:
+                    id: scrollable_message
+                    size_hint: 1, 1-(message_bubble.arrow_height/message_bubble.height)
+
+            GridLayout:
+                cols: 2
+
+                size_hint: 1, None
+                height: dp(64)
+
+                MDTextField:
+                    id: message_field
+                    size_hint: 0.85, 1
+                    hint_text: "Parler à Iris"
+                
+                MDIconButton:
+                    id: message_send_button
+                    icon: "send"
+
+                    size_hint: 0.15, 1
+
+                    on_release: 
+                        app.send_message()

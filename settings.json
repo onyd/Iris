@@ -1,0 +1,81 @@
+{
+  "paths": {
+    "log_path": "Iris/resources/files/vocal_assistant.log.",
+    "reflexs_path": "Iris.resources/files/reflexs.json",
+    "task_path": "Iris/resources/tasks/",
+    "component_path": "Iris/core/Models/Components/",
+    "order_data_path": "Iris/resources/files/order_datasets",
+    "params_path": "Iris/core/Listen/Matching/Parameters/",
+    "comp_model": "Iris/resources/dl_models/comparator/",
+    "w2v_model": "Iris/resources/dl_models/frWac_non_lem_no_postag_no_phrase_200_cbow_cut100.bin",
+    "stt_model": "Iris/resources/dl_models/vosk_model_medium_fr_pguyot"
+  },
+  "comparator": {
+    "max_stc_len": 12,
+    "epochs": 10,
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "beta_1": 0.8,
+    "beta_2": 0.9
+  },
+  "tts": {
+    "name": "sapi",
+    "language": "fr-FR",
+    "rate": 175
+  },
+  "stt": {
+    "name": "vosk",
+    "language": "fr-FR",
+    "time": 5
+  },
+  "wakers": [
+    "Iris"
+  ],
+  "wake_response": [
+    "Qu'y a-t-il ?",
+    "Que voulez vous ?",
+    "Je vous \u00e9coute"
+  ],
+  "miss_understand_response": [
+    "Je n'ai pas compris"
+  ],
+  "missing_response": [
+    "D\u00e9sol\u00e9, il me manque des param\u00e8tre"
+  ],
+  "error_response": [
+    "D\u00e9sol\u00e9 une erreur est survenue"
+  ],
+  "missing_question": [
+    "Pouvez vous me donner {}"
+  ],
+  "tasks": {
+    "say": "SayTask",
+    "question": "QuestionTask"
+  },
+  "placeholders": {
+    "<loc>": {
+      "name": "le lieu"
+    },
+    "<per>": {
+      "name": "la personne"
+    },
+    "<org>": {
+      "name": "l'organisation"
+    },
+    "<device>": {
+      "name": "le p\u00e9riph\u00e9rique"
+    },
+    "<date>": {
+      "name": "la date"
+    },
+    "<app>": {
+      "name": "l'application"
+    },
+    "<thing>": {
+      "name": "le param\u00e8tre g\u00e9n\u00e9rale"
+    },
+    "<math>": {
+      "name": "le probl\u00e8me math\u00e9matique"
+    }
+  }
+}

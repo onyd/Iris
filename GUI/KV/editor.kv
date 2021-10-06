@@ -1,0 +1,72 @@
+#:kivy 1.11.1
+
+<LabButton@RectangleIconLabelButton>:
+    md_bg_color: app.theme_cls.bg_light
+    frame_color: app.theme_cls.accent_color
+
+<ComponentMenuSheet>:
+    Tab:
+        text: "Actions"
+        ScrollingGridLayout:
+            id: actions_lay
+                               
+    Tab:
+        text: "Conditionals"
+        ScrollingGridLayout:
+            id: conditionals_lay
+
+    Tab:
+        text: "Variables"
+        ScrollingGridLayout:
+            id: variables_lay
+
+    Tab:
+        text: "Favorites"
+        ScrollingGridLayout:
+            id: favs_lay
+
+<TaskEditorScreen>:
+    right_action_items: [['delete', lambda x: self.delete_mode_component()], ['link-variant-plus', lambda x: self.change_mode("add_link")], ['link-variant-remove', lambda x: self.change_mode("remove_link")]]
+    left_action_items: [['content-save', lambda x: self.task_manager.save()], ['check-outline', lambda x: x]]
+
+    bottom_action_bar: bottom_action_bar.__self__
+    action_bar: action_bar.__self__
+    
+    FloatLayout:
+        id: view
+
+        size_hint_y: None
+        height: root.height-root.action_bar.height if bottom_action_bar.parent == root else root.height
+        y: root.action_bar.height if bottom_action_bar.parent == root else 0
+
+        GrabableGrid:
+            id: edit_area
+
+            scale_max: 1.
+            scale_min: 0.5
+            scale: 0.7
+
+            do_rotation: False
+
+
+    MDBottomAppBar:
+        id: bottom_action_bar
+        MDToolbar:
+            id: action_bar
+            icon: 'plus'
+            type: 'bottom'
+
+            right_action_items: root.right_action_items
+            left_action_items: root.left_action_items
+
+<ReflexEditorScreen>:
+
+    right_action_items: [['plus', lambda x: x], ['delete', lambda x: x], ['link-variant-plus', lambda x: x], ['link-variant-remove', lambda x: x]]
+    left_action_items: [['content-save', lambda x: x], ['check-outline', lambda x: x]] 
+
+<SceneEditorScreen>:
+
+    right_action_items: [['plus', lambda x: x], ['delete', lambda x: x], ['link-variant-plus', lambda x: x], ['link-variant-remove', lambda x: x]]
+    left_action_items: [['content-save', lambda x: x], ['check-outline', lambda x: x]] 
+
+
